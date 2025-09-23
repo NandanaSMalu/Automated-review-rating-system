@@ -1,6 +1,6 @@
 # Automated-review-rating-system
 
-This project is aimed at developing an automated system to predict review ratings from text data using Natural Language Processing (NLP) and Machine Learning.
+An Automated Review Rating System is a machine learning-powered application that can automatically analyze text reviews and predict or assign ratings without human intervention.
 
 ## Project Structure
 - **data/**: Raw and processed datasets
