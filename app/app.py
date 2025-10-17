@@ -8,17 +8,19 @@ import pandas as pd
 model_A = joblib.load("models/Model_A_Balanced_NB.pkl")
 model_B = joblib.load("models/Model_B_Imbalanced_LR.pkl")
 
+# Load the corresponding TF-IDF vectorizers
+vectorizer_A = joblib.load("models/tfidf_balanced.pkl")      # for balanced dataset
+vectorizer_B = joblib.load("models/tfidf_imbalanced.pkl")    # for imbalanced dataset
+
 # -------------------------
 # Prediction function
 # -------------------------
-def predict_score(text, model):
+def predict_score(text, model, vectorizer):
     """
-    Predict the review score using the given model.
+    Predict the review score using the given model and vectorizer.
     """
-    # Maintain the same DataFrame structure as training
-    data = {'Text': [text], 'Summary': ['']}
-    input_df = pd.DataFrame(data)
-    prediction = model.predict(input_df)
+    X = vectorizer.transform([text])  # Transform raw text to numeric features
+    prediction = model.predict(X)
     return prediction[0]
 
 # -------------------------
@@ -33,8 +35,8 @@ review_text = st.text_area("Enter a review text:")
 if st.button("Predict"):
     if review_text.strip():
         # Get predictions from both models
-        prediction_A = predict_score(review_text, model_A)
-        prediction_B = predict_score(review_text, model_B)
+        prediction_A = predict_score(review_text, model_A, vectorizer_A)
+        prediction_B = predict_score(review_text, model_B, vectorizer_B)
 
         # Display predictions side by side
         col1, col2 = st.columns(2)
